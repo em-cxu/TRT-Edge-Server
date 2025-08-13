@@ -1,8 +1,6 @@
 
 #include "TensorRT_CPP/TRT_inference_engine.hpp"
 
-using namespace nvinfer1;
-
 namespace TRT::YOLO
 {       
 
