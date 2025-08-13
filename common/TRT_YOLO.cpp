@@ -27,14 +27,14 @@ namespace TRT::YOLO
     {
         if (initialized || engine != nullptr)
         {
-            std::cerr << "[BSCAN - OD - TRT] TensorRT instance already initialized! Initialization aborted." << std::endl;
+            std::cerr << "[TRT-YOLO] TensorRT instance already initialized! Initialization aborted." << std::endl;
             return -1;
         }
         
         engine = std::make_unique<TrtInferenceEngine>(path_to_model);
         if (engine == nullptr) 
         {
-            std::cerr << "[BSCAN - OD - TRT] TRT engine loading failed!" << std::endl;
+            std::cerr << "[TRT-YOLO] TRT engine loading failed!" << std::endl;
             return -1;
         }
         
@@ -71,13 +71,13 @@ namespace TRT::YOLO
         // Validate engine state
         if (!initialized || !engine) 
         {
-            std::cerr << "[BSCAN-OD-TRT] Engine or buffers not initialized!" << std::endl;
+            std::cerr << "[TRT-YOLO] Engine or buffers not initialized!" << std::endl;
             return -1;
         }
 
         // Validate single input/output
         if (engine->get_num_inputs() != MODEL_NUM_INPUTS || engine->get_num_outputs() != MODEL_NUM_OUTPUTS) {
-            std::cerr << "[BSCAN-OD-TRT] Unexpected I/O count ("
+            std::cerr << "[TRT-YOLO] Unexpected I/O count ("
                     << engine->get_num_inputs() << " inputs, " 
                     << engine->get_num_outputs() << " outputs)" << std::endl;
             return -1;
@@ -87,7 +87,7 @@ namespace TRT::YOLO
         // images tensor: float32 [1, 3, 640, 640]
         if (input_sizes[0] != input_img.size() * sizeof(float))
         {
-            std::cerr << "[BSCAN-OD-TRT] Input sizes do not match! Expected: "
+            std::cerr << "[TRT-YOLO] Input sizes do not match! Expected: "
                 << std::to_string(input_sizes[0]) << " got: " 
                 << std::to_string(input_img.size() * sizeof(float)) << std::endl;
             return -1;
@@ -103,7 +103,7 @@ namespace TRT::YOLO
         );
 
         if (!success) {
-            std::cerr << "[BSCAN-OD-TRT] Inference failed!" << std::endl;
+            std::cerr << "[TRT-YOLO] Inference failed!" << std::endl;
             return -1;
         }
 
@@ -122,7 +122,7 @@ namespace TRT::YOLO
 
         if (num_dets < 0 || num_dets > 100)
         {
-            std::cerr << "[BSCAN-OD-TRT] Error: Aborted - Received impossible number of detections (0-100): " << std::to_string(num_dets) << std::endl;
+            std::cerr << "[TRT-YOLO] Error: Aborted - Received impossible number of detections (0-100): " << std::to_string(num_dets) << std::endl;
             return -1;
         }
 
