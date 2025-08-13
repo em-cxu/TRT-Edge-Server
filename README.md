@@ -1,2 +1,2 @@
 # TRT-Edge-Server
-Generic TensorRT edge inference server.
+Generic TensorRT edge inference server/client.
